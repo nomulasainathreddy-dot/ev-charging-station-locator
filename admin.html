@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin • EV Charge Locator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="logo">⚡</div>
+        <div>
+          <div class="brand-title">Admin Panel</div>
+          <div class="brand-sub">Add stations (saved in browser)</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeBtn">🌓</button>
+        <a class="pill" href="index.html">Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" style="padding:22px 0 44px;">
+    <div class="main-grid" style="grid-template-columns: 1fr 1fr;">
+      <section class="card" style="padding:14px;">
+        <h2>Add New Station</h2>
+        <p class="muted small">Saved in LocalStorage. Open Home to view.</p>
+
+        <form id="adminForm" style="margin-top:12px; display:grid; gap:12px;">
+          <div class="field">
+            <label>Station Name</label>
+            <input id="aName" required placeholder="Example: Metro FastCharge" />
+          </div>
+
+          <div class="field">
+            <label>Area / City</label>
+            <input id="aArea" required placeholder="Example: Miyapur, Hyderabad" />
+          </div>
+
+          <div class="grid2">
+            <div class="field">
+              <label>Status</label>
+              <select id="aStatus">
+                <option>Available</option>
+                <option>Busy</option>
+                <option>Offline</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Power (kW)</label>
+              <input id="aPower" type="number" min="1" required placeholder="60" />
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="field">
+              <label>Price (₹/kWh)</label>
+              <input id="aPrice" type="number" min="1" required placeholder="15" />
+            </div>
+            <div class="field">
+              <label>Rating (0–5)</label>
+              <input id="aRating" type="number" step="0.1" min="0" max="5" required placeholder="4.5" />
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Types (comma separated)</label>
+            <input id="aTypes" required placeholder="CCS2, Type 2" />
+          </div>
+
+          <div class="grid2">
+            <div class="field">
+              <label>Latitude</label>
+              <input id="aLat" type="number" step="0.0001" required placeholder="17.45" />
+            </div>
+            <div class="field">
+              <label>Longitude</label>
+              <input id="aLng" type="number" step="0.0001" required placeholder="78.39" />
+            </div>
+          </div>
+
+          <label class="chip" style="display:flex;gap:10px;align-items:center;width:fit-content;">
+            <input id="aOpen24" type="checkbox" />
+            Open 24/7
+          </label>
+
+          <button class="btn full" type="submit">Add Station</button>
+        </form>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <h2>Recently Added</h2>
+          <p class="muted small">Top 8 stations from storage</p>
+        </div>
+        <div id="adminList" class="cards"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EV Charge Locator</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Leaflet (Real Map) -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="logo">⚡</div>
+        <div>
+          <div class="brand-title">EV Charge Locator</div>
+          <div class="brand-sub">Find • Filter • Navigate • Book</div>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button class="icon-btn" id="themeBtn" title="Toggle theme">🌓</button>
+        <a class="pill" href="login.html">Login</a>
+        <a class="pill pill-primary" href="admin.html">Admin</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-left">
+        <h1>Locate EV charging stations nearby</h1>
+        <p class="muted">
+          Professional UI + working search + map + booking simulation + admin add-station.
+        </p>
+
+        <div class="searchbar">
+          <input id="q" type="text" placeholder="Search city/area (e.g., Hyderabad, Gachibowli)" />
+          <button class="btn" id="searchBtn">Search</button>
+        </div>
+
+        <div class="quick">
+          <span class="chip" data-quick="fast">Fast Charging</span>
+          <span class="chip" data-quick="open">24/7</span>
+          <span class="chip" data-quick="available">Available</span>
+          <span class="chip" data-quick="near">Near Me</span>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi">
+            <div class="kpi-num" id="kStations">0</div>
+            <div class="kpi-label">Stations</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-num" id="kAvailable">0</div>
+            <div class="kpi-label">Available</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-num" id="kFast">0</div>
+            <div class="kpi-label">Fast DC</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-right card">
+        <div class="card-head">
+          <div>
+            <h3>Filters</h3>
+            <p class="muted small">Refine stations list instantly</p>
+          </div>
+          <button class="btn btn-ghost" id="resetBtn">Reset</button>
+        </div>
+
+        <div class="filters">
+          <div class="field">
+            <label>Charger Type</label>
+            <select id="type">
+              <option value="any">Any</option>
+              <option value="CCS2">CCS2</option>
+              <option value="Type 2">Type 2 (AC)</option>
+              <option value="CHAdeMO">CHAdeMO</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Status</label>
+            <select id="status">
+              <option value="any">Any</option>
+              <option value="Available">Available</option>
+              <option value="Busy">Busy</option>
+              <option value="Offline">Offline</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Min Power (kW)</label>
+            <select id="minPower">
+              <option value="0">Any</option>
+              <option value="7">7+</option>
+              <option value="22">22+</option>
+              <option value="50">50+</option>
+              <option value="100">100+</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Max Price (₹/kWh)</label>
+            <select id="maxPrice">
+              <option value="999">Any</option>
+              <option value="12">₹12</option>
+              <option value="15">₹15</option>
+              <option value="18">₹18</option>
+              <option value="20">₹20</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Sort</label>
+            <select id="sort">
+              <option value="distance">Closest</option>
+              <option value="price">Cheapest</option>
+              <option value="rating">Highest Rated</option>
+              <option value="power">Highest Power</option>
+            </select>
+          </div>
+
+          <button class="btn full" id="applyBtn">Apply</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <main class="container main-grid">
+    <!-- List -->
+    <section>
+      <div class="section-title">
+        <h2>Stations</h2>
+        <p class="muted small" id="resultText">Showing all stations</p>
+      </div>
+
+      <div id="cards" class="cards"></div>
+      <div class="empty" id="emptyState" hidden>
+        <div class="empty-icon">🔎</div>
+        <h3>No results</h3>
+        <p class="muted">Try changing filters or search text.</p>
+      </div>
+    </section>
+
+    <!-- Map -->
+    <aside class="map-wrap card">
+      <div class="card-head">
+        <div>
+          <h3>Live Map</h3>
+          <p class="muted small">Click any station card → zoom on map</p>
+        </div>
+        <button class="btn btn-ghost" id="locBtn">Use My Location</button>
+      </div>
+
+      <div id="map" class="map"></div>
+
+      <div class="map-footer">
+        <div class="mini">
+          <div class="mini-num" id="mCount">0</div>
+          <div class="mini-label">Markers</div>
+        </div>
+        <div class="mini">
+          <div class="mini-num" id="mAvgPrice">—</div>
+          <div class="mini-label">Avg ₹/kWh</div>
+        </div>
+        <div class="mini">
+          <div class="mini-num" id="mAvgRating">—</div>
+          <div class="mini-label">Avg Rating</div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Booking Modal (Simulation) -->
+  <div class="modal" id="modal" aria-hidden="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3 id="modalTitle">Book Slot</h3>
+          <p class="muted small" id="modalSub">Select time and confirm</p>
+        </div>
+        <button class="icon-btn" id="closeModal" title="Close">✖</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="grid2">
+          <div class="field">
+            <label>Date</label>
+            <input type="date" id="bookDate" />
+          </div>
+          <div class="field">
+            <label>Time</label>
+            <select id="bookTime">
+              <option>08:00</option><option>09:00</option><option>10:00</option>
+              <option>11:00</option><option>12:00</option><option>13:00</option>
+              <option>14:00</option><option>15:00</option><option>16:00</option>
+              <option>17:00</option><option>18:00</option><option>19:00</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Vehicle Number (demo)</label>
+          <input type="text" id="bookVehicle" placeholder="TS09AB1234" />
+        </div>
+
+        <div class="notice" id="bookNotice">
+          This is a UI demo booking (no backend). You can connect database later.
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="cancelBook">Cancel</button>
+        <button class="btn" id="confirmBook">Confirm Booking</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div>
+        <div class="brand-title">EV Charge Locator</div>
+        <div class="muted small">College project UI • Map by OpenStreetMap tiles</div>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="station.html">Station Details</a>
+        <a href="login.html">Login</a>
+        <a href="admin.html">Admin</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Leaflet + App -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

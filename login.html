@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login • EV Charge Locator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="page-anim">
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="brand">
+        <div class="logo">⚡</div>
+        <div>
+          <div class="brand-title">EV Charge Locator</div>
+          <div class="brand-sub">Account (UI Demo)</div>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeBtn" title="Toggle theme">🌓</button>
+        <a class="pill" href="index.html">Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container auth-wrap">
+    <!-- Left animated hero -->
+    <section class="auth-hero card">
+      <div class="auth-glow"></div>
+
+      <div class="auth-hero-top">
+        <h2 class="auth-title">Welcome Back</h2>
+        <p class="muted small">Fast • Clean • Electric</p>
+      </div>
+
+      <div class="road">
+        <div class="lane"></div>
+        <div class="lane lane2"></div>
+
+        <div class="car">
+          <svg viewBox="0 0 420 140" aria-hidden="true">
+            <path d="M70 92 C105 60, 145 48, 210 48 C260 48, 308 58, 342 80
+                     C360 92, 376 96, 392 96 L402 96
+                     C410 96, 416 102, 416 110 L416 116
+                     C416 124, 410 130, 402 130 L34 130
+                     C20 130, 10 120, 10 106
+                     C10 92, 20 82, 34 82 L58 82
+                     C64 82, 67 86, 70 92 Z"
+                  class="car-body"/>
+            <path d="M130 86 C150 68, 178 60, 214 60
+                     C252 60, 280 68, 302 82
+                     L286 82 C270 72, 248 68, 214 68
+                     C182 68, 158 74, 140 86 Z"
+                  class="car-glass"/>
+            <circle cx="120" cy="130" r="20" class="wheel"/>
+            <circle cx="120" cy="130" r="10" class="wheel-inner"/>
+            <circle cx="312" cy="130" r="20" class="wheel"/>
+            <circle cx="312" cy="130" r="10" class="wheel-inner"/>
+            <path d="M388 98 L408 98 L404 110 L388 110 Z" class="headlight"/>
+          </svg>
+
+          <div class="speed s1"></div>
+          <div class="speed s2"></div>
+          <div class="speed s3"></div>
+        </div>
+
+        <div class="bolt">⚡</div>
+      </div>
+    </section>
+
+    <!-- Right login/signup -->
+    <section class="card auth-card">
+      <div class="card-head" style="padding:0 0 12px 0;">
+        <div>
+          <h2>Login / Signup</h2>
+          <p class="muted small">UI only (no backend). Add backend later.</p>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <form class="station auth-form" onsubmit="event.preventDefault(); alert('✅ Logged in (demo)');">
+          <h3>Login</h3>
+          <div class="field" style="margin-top:10px;">
+            <label>Email</label>
+            <input class="anim-input" type="email" required placeholder="name@gmail.com" />
+          </div>
+          <div class="field" style="margin-top:10px;">
+            <label>Password</label>
+            <input class="anim-input" type="password" required placeholder="********" />
+          </div>
+          <button class="btn full anim-btn" style="margin-top:12px;">Login</button>
+        </form>
+
+        <form class="station auth-form" onsubmit="event.preventDefault(); alert('✅ Account created (demo)');">
+          <h3>Signup</h3>
+          <div class="field" style="margin-top:10px;">
+            <label>Name</label>
+            <input class="anim-input" type="text" required placeholder="Your name" />
+          </div>
+          <div class="field" style="margin-top:10px;">
+            <label>Email</label>
+            <input class="anim-input" type="email" required placeholder="name@gmail.com" />
+          </div>
+          <div class="field" style="margin-top:10px;">
+            <label>Password</label>
+            <input class="anim-input" type="password" required placeholder="Create password" />
+          </div>
+          <button class="btn full anim-btn" style="margin-top:12px;">Create Account</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
